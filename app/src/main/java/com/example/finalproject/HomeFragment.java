@@ -14,41 +14,25 @@ import android.widget.Button;
 import android.widget.EditText;
 
 /**
- * A simple {@link Fragment} subclass.
- * Use the {@link HomeFragment#} factory method to
- * create an instance of this fragment.
+ * HomeFragment - This is the main page of the project
  */
 public class HomeFragment extends Fragment {
 
 
+    public static final String PLAYER_NAME = "Player Name";
+    public static final String CREATE = "Create";
+    public static final String ONE = "one";
+    public static final String TWO = "two";
+    public static final String CANCEL = "Cancel";
+    public static final String SET_NAME_FOR_PLAYER = "Set name for player ";
     private Button startBtn;
     private View gameView;
     private String playerOneName;
     private String playerTwoName;
 
-
+    //HomeFragment constructor
     public HomeFragment() {
-        // Required empty public constructor
     }
-
-
-//        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-//        final EditText text = new EditText(getActivity());
-//
-//        builder.setTitle("New Profile").setMessage("Name this new profile").setView(text);
-//        builder.setPositiveButton("Create", new DialogInterface.OnClickListener() {
-//
-//            public void onClick(DialogInterface di, int i) {
-//                final String name = text.getText().toString();
-//                //do something with it
-//            }
-//        });
-//        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-//
-//            public void onClick(DialogInterface di, int i) {
-//            }
-//        });
-//        builder.create().show();
 
 
     @Override
@@ -60,49 +44,43 @@ public class HomeFragment extends Fragment {
         startBtn = gameView.findViewById(R.id.startBtn);
 
         startBtn.setOnClickListener((gradeEntryView) -> {
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            final EditText text = new EditText(getActivity());
-
-            builder.setTitle("Player Name").setMessage("Set name for player one").setView(text);
-            builder.setPositiveButton("Create", new DialogInterface.OnClickListener() {
-
-                public void onClick(DialogInterface di, int i) {
-                    playerOneName = text.getText().toString();
-
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                    final EditText text = new EditText(getActivity());
-
-                    builder.setTitle("Player Name").setMessage("Set name for player two").setView(text);
-                    builder.setPositiveButton("Create", new DialogInterface.OnClickListener() {
-
-                        public void onClick(DialogInterface di, int i) {
-                            playerTwoName = text.getText().toString();
-                            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-//                            transaction.addToBackStack(GameFragment.TAG);
-                            transaction.replace(R.id.frame, new GameFragment());
-                            transaction.commit();
-
-                        }
-                    });
-                    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-
-                        public void onClick(DialogInterface di, int i) {
-                        }
-                    });
-                    builder.create().show();
-
-
-                }
-            });
-            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-
-                public void onClick(DialogInterface di, int i) {
-                }
-            });
-            builder.create().show();
-
+            enterNameDialogBox(ONE);
         });
         return gameView;
+    }
+
+    //Alert Dialog box for getting the player name
+    private void enterNameDialogBox(final String player) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        final EditText text = new EditText(getActivity());
+
+        builder.setTitle(PLAYER_NAME).setMessage(SET_NAME_FOR_PLAYER + player).setView(text);
+        builder.setPositiveButton(CREATE, new DialogInterface.OnClickListener() {
+
+            public void onClick(DialogInterface di, int i) {
+
+                //If player clicks the create button, function will call a recursive method to itself to enter
+                //the same details with player two.
+                if (player.equals(ONE)) {
+                    playerOneName = text.getText().toString();
+                    enterNameDialogBox( TWO);
+                } else {
+                    playerTwoName = text.getText().toString();
+
+                    //After player two, the game fragment will be called.
+                    FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                    transaction.replace(R.id.homeFrame, new GameFragment());
+                    transaction.commit();
+                }
+
+
+            }
+        });
+        builder.setNegativeButton(CANCEL, new DialogInterface.OnClickListener() {
+
+            public void onClick(DialogInterface di, int i) {
+            }
+        });
+        builder.create().show();
     }
 }
