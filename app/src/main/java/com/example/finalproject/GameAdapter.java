@@ -2,6 +2,7 @@ package com.example.finalproject;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,11 +20,14 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.ViewHolder> {
 
     private ArrayList<Bitmap> arrayBoxes;
     private Context context;
+    private Bitmap heartBitmap, xBitmap;
 
     //Constructor with parameter for context and the number of boxes in the grid
     public GameAdapter(Context context, ArrayList<Bitmap> arrayBoxes) {
         this.context = context;
         this.arrayBoxes = arrayBoxes;
+        heartBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.blue_heart);
+        xBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.red_x);
 
     }
 
@@ -50,6 +54,28 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         holder.box_table.setImageBitmap(arrayBoxes.get(position));
+
+        holder.box_table.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                //Check first if box has a value already
+                if (arrayBoxes.get(position) == null) {
+
+                    //player one is set to true thus will always start first
+                    //If user click a box, it will be set and then added a bitmap depending on who is the player
+                    if (GameFragment.playerOneTurn) {
+                        arrayBoxes.set(position, heartBitmap);
+                        GameFragment.playerOneTurn = false;
+                    } else {
+                        arrayBoxes.set(position, xBitmap);
+                        GameFragment.playerOneTurn = true;
+                    }
+
+                    notifyItemChanged(position);
+                }
+            }
+        });
     }
 
     @Override

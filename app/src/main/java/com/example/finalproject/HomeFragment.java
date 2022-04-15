@@ -72,8 +72,6 @@ public class HomeFragment extends Fragment {
                     transaction.replace(R.id.homeFrame, new GameFragment());
                     transaction.commit();
                 }
-
-
             }
         });
         builder.setNegativeButton(CANCEL, new DialogInterface.OnClickListener() {

@@ -21,6 +21,7 @@ public class GameFragment extends Fragment {
     private View gameView;
     private GameAdapter gameAdapter;
     private RecyclerView gameRV;
+    public static boolean playerOneTurn = true;
 
     public GameFragment() {
         // Required empty public constructor
