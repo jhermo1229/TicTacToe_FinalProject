@@ -18,7 +18,7 @@ import java.util.ArrayList;
  */
 public class GameAdapter extends RecyclerView.Adapter<GameAdapter.ViewHolder> {
 
-    private ArrayList<Bitmap> arrayBoxes;
+    private ArrayList<Bitmap> arrayBoxes, arrayWin;
     private Context context;
     private Bitmap heartBitmap, xBitmap;
 
@@ -28,12 +28,21 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.ViewHolder> {
         this.arrayBoxes = arrayBoxes;
         heartBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.blue_heart);
         xBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.red_x);
+        arrayWin = new ArrayList<>();
+        arrayWin.add(BitmapFactory.decodeResource(context.getResources(), R.drawable.win1));
+        arrayWin.add(BitmapFactory.decodeResource(context.getResources(), R.drawable.win2));
+        arrayWin.add(BitmapFactory.decodeResource(context.getResources(), R.drawable.win3));
+        arrayWin.add(BitmapFactory.decodeResource(context.getResources(), R.drawable.win4));
+        arrayWin.add(BitmapFactory.decodeResource(context.getResources(), R.drawable.win5));
+        arrayWin.add(BitmapFactory.decodeResource(context.getResources(), R.drawable.win6));
+        arrayWin.add(BitmapFactory.decodeResource(context.getResources(), R.drawable.win7));
+        arrayWin.add(BitmapFactory.decodeResource(context.getResources(), R.drawable.win8));
 
     }
 
 
     //Created view holder for the game adapter
-    class ViewHolder extends RecyclerView.ViewHolder{
+    class ViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView box_table;
 
@@ -71,11 +80,50 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.ViewHolder> {
                         arrayBoxes.set(position, xBitmap);
                         GameFragment.playerOneTurn = true;
                     }
-
+                    if (checkWin()) {
+//                        win();
+                    }
                     notifyItemChanged(position);
                 }
             }
         });
+    }
+
+    private boolean checkWin() {
+
+        //Check if horizontal rows of table has a winning player. Need to check a box if null to prevent winning from the start of the game (all boxes are null)
+        if ((arrayBoxes.get(0) == arrayBoxes.get(1)) && (arrayBoxes.get(1) == arrayBoxes.get(2)) && arrayBoxes.get(0) != null) {
+            GameFragment.img_stroke.setImageBitmap(arrayWin.get(5));
+            return true;
+        } else if ((arrayBoxes.get(3) == arrayBoxes.get(4)) && (arrayBoxes.get(4) == arrayBoxes.get(5)) && arrayBoxes.get(3) != null) {
+            GameFragment.img_stroke.setImageBitmap(arrayWin.get(6));
+            return true;
+        } else if ((arrayBoxes.get(6) == arrayBoxes.get(7)) && (arrayBoxes.get(7) == arrayBoxes.get(8)) && arrayBoxes.get(6) != null) {
+            GameFragment.img_stroke.setImageBitmap(arrayWin.get(6));
+            return true;
+
+            //Check if vertical columns of table has a winning player
+        } else if (arrayBoxes.get(0) == arrayBoxes.get(3) && arrayBoxes.get(3) == arrayBoxes.get(6) && arrayBoxes.get(0) != null) {
+            GameFragment.img_stroke.setImageBitmap(arrayWin.get(2));
+            return true;
+        } else if ((arrayBoxes.get(1) == arrayBoxes.get(4)) && (arrayBoxes.get(4) == arrayBoxes.get(7)) && arrayBoxes.get(1) != null) {
+            GameFragment.img_stroke.setImageBitmap(arrayWin.get(3));
+            return true;
+        }else if ((arrayBoxes.get(2) == arrayBoxes.get(5)) && (arrayBoxes.get(5) == arrayBoxes.get(8)) && arrayBoxes.get(2) != null) {
+            GameFragment.img_stroke.setImageBitmap(arrayWin.get(4));
+            return true;
+
+            //Check if slant boxes has a winning player
+        }else if(arrayBoxes.get(0)==arrayBoxes.get(4)&&arrayBoxes.get(4)==arrayBoxes.get(8)&&arrayBoxes.get(0)!=null){
+            GameFragment.img_stroke.setImageBitmap(arrayWin.get(1));
+//            checkWinCharacter(0);
+            return true;
+        }else if(arrayBoxes.get(2)==arrayBoxes.get(4)&&arrayBoxes.get(4)==arrayBoxes.get(6)&&arrayBoxes.get(2)!=null){
+            GameFragment.img_stroke.setImageBitmap(arrayWin.get(0));
+//            checkWinCharacter(2);
+            return true;
+        }
+        return false;
     }
 
     @Override

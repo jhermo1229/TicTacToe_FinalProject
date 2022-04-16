@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import java.util.ArrayList;
 
@@ -22,6 +23,7 @@ public class GameFragment extends Fragment {
     private GameAdapter gameAdapter;
     private RecyclerView gameRV;
     public static boolean playerOneTurn = true;
+    public static ImageView img_stroke;
 
     public GameFragment() {
         // Required empty public constructor
@@ -35,6 +37,7 @@ public class GameFragment extends Fragment {
 
         //Recycler view for the game board
         gameRV = gameView.findViewById(R.id.tictactoeboard);
+        img_stroke = gameView.findViewById(R.id.img_stroke);
 
         //Number of created boxes for the board - total of 9 boxes
         ArrayList<Bitmap> arrayBoxes = new ArrayList<>();
