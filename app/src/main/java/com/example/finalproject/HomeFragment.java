@@ -25,10 +25,10 @@ public class HomeFragment extends Fragment {
     public static final String TWO = "two";
     public static final String CANCEL = "Cancel";
     public static final String SET_NAME_FOR_PLAYER = "Set name for player ";
-    private Button startBtn;
+    private Button startBtn , viewScoreBtn;
     private View gameView;
-    private String playerOneName;
-    private String playerTwoName;
+    public String playerOneName;
+    public String playerTwoName;
 
     //HomeFragment constructor
     public HomeFragment() {
@@ -46,6 +46,17 @@ public class HomeFragment extends Fragment {
         startBtn.setOnClickListener((gradeEntryView) -> {
             enterNameDialogBox(ONE);
         });
+
+        viewScoreBtn = gameView.findViewById(R.id.scoreBtn);
+
+        viewScoreBtn.setOnClickListener((gradeEntryView) -> {
+
+            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+              transaction.replace(R.id.homeFrame, new ViewScoreFragment());
+            transaction.commit();
+            });
+
+
         return gameView;
     }
 
@@ -53,6 +64,7 @@ public class HomeFragment extends Fragment {
     private void enterNameDialogBox(final String player) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         final EditText text = new EditText(getActivity());
+//        Player playerModel = new Player();
 
         builder.setTitle(PLAYER_NAME).setMessage(SET_NAME_FOR_PLAYER + player).setView(text);
         builder.setPositiveButton(CREATE, new DialogInterface.OnClickListener() {
@@ -63,14 +75,29 @@ public class HomeFragment extends Fragment {
                 //the same details with player two.
                 if (player.equals(ONE)) {
                     playerOneName = text.getText().toString();
-                    enterNameDialogBox( TWO);
+                    if(!playerOneName.isEmpty() && !playerOneName.startsWith(" ")) {
+                        enterNameDialogBox(TWO);
+                    }else{
+                        enterNameDialogBox(ONE);
+                    }
                 } else {
                     playerTwoName = text.getText().toString();
+                    if(!playerTwoName.isEmpty() && !playerTwoName.startsWith(" ")) {
 
                     //After player two, the game fragment will be called.
+                    GameFragment gameFrag = new GameFragment();
+                    Bundle args = new Bundle();
+                    args.putString("playerOneName" , playerOneName);
+                    args.putString("playerTwoName", playerTwoName);
+                    gameFrag.setArguments(args);
                     FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                    transaction.replace(R.id.homeFrame, new GameFragment());
+                    transaction.addToBackStack(GameFragment.TAG);
+                    transaction.replace(R.id.homeFrame, gameFrag);
+
                     transaction.commit();
+                    }else{
+                        enterNameDialogBox(TWO);
+                    }
                 }
             }
         });

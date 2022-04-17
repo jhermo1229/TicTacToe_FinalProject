@@ -12,6 +12,7 @@ import android.widget.FrameLayout;
 public class MainActivity extends AppCompatActivity {
 
     private FrameLayout homeFrame;
+    public static int playerOneScore = 0, playerTwoScore = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -21,6 +21,7 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.ViewHolder> {
     private ArrayList<Bitmap> arrayBoxes, arrayWin;
     private Context context;
     private Bitmap heartBitmap, xBitmap;
+    private String winningPlayer, playerOneName, playerTwoName;
 
     //Constructor with parameter for context and the number of boxes in the grid
     public GameAdapter(Context context, ArrayList<Bitmap> arrayBoxes) {
@@ -37,6 +38,8 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.ViewHolder> {
         arrayWin.add(BitmapFactory.decodeResource(context.getResources(), R.drawable.win6));
         arrayWin.add(BitmapFactory.decodeResource(context.getResources(), R.drawable.win7));
         arrayWin.add(BitmapFactory.decodeResource(context.getResources(), R.drawable.win8));
+        playerOneName = GameFragment.playerOneName;
+        playerTwoName = GameFragment.playerTwoName;
 
     }
 
@@ -76,12 +79,16 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.ViewHolder> {
                     if (GameFragment.playerOneTurn) {
                         arrayBoxes.set(position, heartBitmap);
                         GameFragment.playerOneTurn = false;
+                        GameFragment.player_turn.setText("Turn of " + playerTwoName);
                     } else {
                         arrayBoxes.set(position, xBitmap);
                         GameFragment.playerOneTurn = true;
+                        GameFragment.player_turn.setText("Turn of " + playerOneName);
                     }
+
+                    //Win checker on click. If win will display a layout who is the winner
                     if (checkWin()) {
-//                        win();
+                        win();
                     }
                     notifyItemChanged(position);
                 }
@@ -94,36 +101,70 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.ViewHolder> {
         //Check if horizontal rows of table has a winning player. Need to check a box if null to prevent winning from the start of the game (all boxes are null)
         if ((arrayBoxes.get(0) == arrayBoxes.get(1)) && (arrayBoxes.get(1) == arrayBoxes.get(2)) && arrayBoxes.get(0) != null) {
             GameFragment.img_stroke.setImageBitmap(arrayWin.get(5));
+            checkWinningPlayer(0);
             return true;
         } else if ((arrayBoxes.get(3) == arrayBoxes.get(4)) && (arrayBoxes.get(4) == arrayBoxes.get(5)) && arrayBoxes.get(3) != null) {
             GameFragment.img_stroke.setImageBitmap(arrayWin.get(6));
+            checkWinningPlayer(5);
             return true;
         } else if ((arrayBoxes.get(6) == arrayBoxes.get(7)) && (arrayBoxes.get(7) == arrayBoxes.get(8)) && arrayBoxes.get(6) != null) {
-            GameFragment.img_stroke.setImageBitmap(arrayWin.get(6));
+            GameFragment.img_stroke.setImageBitmap(arrayWin.get(7));
+            checkWinningPlayer(6);
             return true;
 
             //Check if vertical columns of table has a winning player
         } else if (arrayBoxes.get(0) == arrayBoxes.get(3) && arrayBoxes.get(3) == arrayBoxes.get(6) && arrayBoxes.get(0) != null) {
             GameFragment.img_stroke.setImageBitmap(arrayWin.get(2));
+            checkWinningPlayer(0);
             return true;
         } else if ((arrayBoxes.get(1) == arrayBoxes.get(4)) && (arrayBoxes.get(4) == arrayBoxes.get(7)) && arrayBoxes.get(1) != null) {
             GameFragment.img_stroke.setImageBitmap(arrayWin.get(3));
+            checkWinningPlayer(1);
             return true;
         }else if ((arrayBoxes.get(2) == arrayBoxes.get(5)) && (arrayBoxes.get(5) == arrayBoxes.get(8)) && arrayBoxes.get(2) != null) {
             GameFragment.img_stroke.setImageBitmap(arrayWin.get(4));
+            checkWinningPlayer(2);
             return true;
 
             //Check if slant boxes has a winning player
         }else if(arrayBoxes.get(0)==arrayBoxes.get(4)&&arrayBoxes.get(4)==arrayBoxes.get(8)&&arrayBoxes.get(0)!=null){
             GameFragment.img_stroke.setImageBitmap(arrayWin.get(1));
-//            checkWinCharacter(0);
+            checkWinningPlayer(0);
             return true;
         }else if(arrayBoxes.get(2)==arrayBoxes.get(4)&&arrayBoxes.get(4)==arrayBoxes.get(6)&&arrayBoxes.get(2)!=null){
             GameFragment.img_stroke.setImageBitmap(arrayWin.get(0));
-//            checkWinCharacter(2);
+            checkWinningPlayer(2);
             return true;
         }
         return false;
+    }
+
+    //Gets the array box as a parameter (any of the 3 combination box can be sent) and then checks
+    //what bitmap is inserted in the array
+    private void checkWinningPlayer(int i) {
+        if (arrayBoxes.get(i)==heartBitmap){
+            winningPlayer = GameFragment.playerOneName;
+        }else{
+            winningPlayer = GameFragment.playerTwoName;
+        }
+    }
+
+    //Main activity contains the main score and it loops depending on the winner.
+    //Also contains the setting of the textview in the fragment for the respective score
+    private void win() {
+        GameFragment.win_relative_layout.setVisibility(View.VISIBLE);
+        if(winningPlayer.equals(playerOneName)){
+            MainActivity.playerOneScore++;
+            GameFragment.playerOneTextView.setText(playerOneName + ": " + MainActivity.playerOneScore);
+            GameFragment.txt_win.setText(playerOneName + " wins!!!");
+
+        }else{
+            MainActivity.playerTwoScore++;
+            GameFragment.playerTwoTextView.setText(playerTwoName + ": " + MainActivity.playerTwoScore);
+            GameFragment.txt_win.setText(playerTwoName + " wins!!!");
+
+        }
+
     }
 
     @Override
