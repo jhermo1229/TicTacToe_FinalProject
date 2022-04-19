@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.FrameLayout;
 
 /**
@@ -19,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         //Created a fragment which will be used as home page
         homeFrame = findViewById(R.id.homeFrame);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -26,4 +29,5 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
 
     }
+
 }

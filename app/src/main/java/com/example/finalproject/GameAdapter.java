@@ -1,5 +1,6 @@
 package com.example.finalproject;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -64,7 +65,7 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.ViewHolder> {
 
     //Bind each boxes with the array passed
     @Override
-    public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.box_table.setImageBitmap(arrayBoxes.get(position));
 
         holder.box_table.setOnClickListener(new View.OnClickListener() {
@@ -87,8 +88,20 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.ViewHolder> {
                     }
 
                     //Win checker on click. If win will display a layout who is the winner
+                    //Else it will be a draw
                     if (checkWin()) {
                         win();
+                    }else{
+                        int count = 0;
+                        for (int i = 0; i < arrayBoxes.size(); i++){
+                            if (arrayBoxes.get(i)!=null){
+                                count++;
+                            }
+                        }
+                        if (count == 9){
+                            GameFragment.win_relative_layout.setVisibility(View.VISIBLE);
+                              GameFragment.txt_win.setText("DRAW!!!!");
+                        }
                     }
                     notifyItemChanged(position);
                 }

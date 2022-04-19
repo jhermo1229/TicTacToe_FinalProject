@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +30,7 @@ public class HomeFragment extends Fragment {
     private View gameView;
     public String playerOneName;
     public String playerTwoName;
+    private PlayerListAdapter mAdapter;
 
     //HomeFragment constructor
     public HomeFragment() {

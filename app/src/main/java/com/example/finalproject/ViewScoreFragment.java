@@ -87,4 +87,6 @@ public class ViewScoreFragment extends Fragment {
         mRecyclerview.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();
     }
+
+
 }
