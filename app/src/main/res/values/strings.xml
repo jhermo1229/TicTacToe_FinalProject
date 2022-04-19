@@ -7,4 +7,9 @@
     <string name="player_one_score">Player 1 Score</string>
     <string name="player_two_score">Player 2 Score</string>
     <string name="date">Date</string>
+    <string name="back">Go Back</string>
+    <string name="start">Start Game</string>
+    <string name="view">View Scores</string>
+    <string name="playAgain">Play Again</string>
+    <string name="home">Home</string>
 </resources>

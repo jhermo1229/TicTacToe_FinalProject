@@ -25,6 +25,8 @@ import java.util.ArrayList;
  */
 public class GameFragment extends Fragment {
 
+    public static final String PLAYER_ONE_NAME = "playerOneName";
+    public static final String PLAYER_TWO_NAME = "playerTwoName";
     private View gameView;
     public static String TAG = GameFragment.class.getName();
     public static final String RECORD_ADDED_SUCCESSFULLY = "Record Added Successfully";
@@ -53,15 +55,15 @@ public class GameFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         gameView = inflater.inflate(R.layout.fragment_game, container, false);
-//Initializing the active database
+        //Initializing the active database
         dbh = new DatabaseHelper(getActivity());
         player_turn = gameView.findViewById(R.id.player_turn);
-        playerOneTextView =gameView.findViewById(R.id.playerOne_win);
-        playerTwoTextView=gameView.findViewById(R.id.playerTwo_win);
-        playerOneName = getArguments().getString("playerOneName");
-        playerTwoName = getArguments().getString("playerTwoName");
-        playerOneTextView.setText(playerOneName + ": 0" );
-        playerTwoTextView.setText(playerTwoName + ": 0" );
+        playerOneTextView = gameView.findViewById(R.id.playerOne_win);
+        playerTwoTextView = gameView.findViewById(R.id.playerTwo_win);
+        playerOneName = getArguments().getString(PLAYER_ONE_NAME);
+        playerTwoName = getArguments().getString(PLAYER_TWO_NAME);
+        playerOneTextView.setText(playerOneName + ": 0");
+        playerTwoTextView.setText(playerTwoName + ": 0");
         player_turn.setText("Turn of " + playerOneName);
         win_relative_layout = gameView.findViewById(R.id.win_relative_layout);
 
@@ -70,7 +72,6 @@ public class GameFragment extends Fragment {
         //Recycler view for the game board
         gameRV = gameView.findViewById(R.id.tictactoeboard);
         img_stroke = gameView.findViewById(R.id.img_stroke);
-//        btn_reset = gameView.findViewById(R.id.btn_reset);
         btn_again = gameView.findViewById(R.id.btn_again);
         btn_home = gameView.findViewById(R.id.btn_home);
 
@@ -124,7 +125,6 @@ public class GameFragment extends Fragment {
 
         return gameView;
     }
-
 
 
     private void reset() {

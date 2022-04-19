@@ -1,7 +1,8 @@
 package com.example.finalproject;
 
-import java.time.LocalDateTime;
-
+/**
+ * Player model class - also to be used for database
+ */
 public class Player {
 
     private Integer id;
@@ -18,7 +19,6 @@ public class Player {
         this.setPlayerTwoName(playerTwoName);
         this.setPlayerOneWin(playerOneWin);
         this.setPlayerTwoWin(playerTwoWin);
-//        this.setCurrentTimeStamp(currentTimeStamp);
     }
 
     public Player() {

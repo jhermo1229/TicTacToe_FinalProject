@@ -16,8 +16,12 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * ViewScoreFragment - Fragment for showing the scores of players who played
+ */
 public class ViewScoreFragment extends Fragment {
 
+    public static final String NO_RECORDS_FOUND = "No Records Found";
     public static String TAG = ViewScoreFragment.class.getName();
     public static final String ID = "id";
     public static final String PLAYER_ONE_NAME = "player_one";
@@ -54,7 +58,7 @@ public class ViewScoreFragment extends Fragment {
         //if no record was found, will toast a no records message.
         //Otherwise will set the values to object
         if (cursor == null || cursor.getCount() == 0) {
-            Toast.makeText(getContext(), "No Records Found", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), NO_RECORDS_FOUND, Toast.LENGTH_SHORT).show();
             return viewFragment;
         } else {
             //Setting the values in object then added to list
@@ -68,7 +72,6 @@ public class ViewScoreFragment extends Fragment {
                     player.setPlayerTwoWin(cursor.getInt(cursor.getColumnIndexOrThrow(PLAYER_TWO_SCORE)));
                     player.setCurrentTimeStamp(cursor.getString(cursor.getColumnIndexOrThrow(DATE)));
 
-                    System.out.println(">>>>" + player.getPlayerOneWin());
                     playerList.add(player);
                 } while (cursor.moveToNext());
             }
@@ -79,6 +82,7 @@ public class ViewScoreFragment extends Fragment {
         dbh.close();
         bindAdapter();
 
+        //Back button to home
         backBtn = viewFragment.findViewById(R.id.backBtn);
 
         backBtn.setOnClickListener(new View.OnClickListener(){

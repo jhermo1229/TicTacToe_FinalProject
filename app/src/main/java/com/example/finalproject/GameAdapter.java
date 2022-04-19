@@ -19,6 +19,10 @@ import java.util.ArrayList;
  */
 public class GameAdapter extends RecyclerView.Adapter<GameAdapter.ViewHolder> {
 
+    public static final String WINS = "wins!!!";
+    public static final String BLANK = " ";
+    public static final String DRAW = "DRAW!!!!";
+    public static final String TURN_OF = "Turn of";
     private ArrayList<Bitmap> arrayBoxes, arrayWin;
     private Context context;
     private Bitmap heartBitmap, xBitmap;
@@ -80,27 +84,27 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.ViewHolder> {
                     if (GameFragment.playerOneTurn) {
                         arrayBoxes.set(position, heartBitmap);
                         GameFragment.playerOneTurn = false;
-                        GameFragment.player_turn.setText("Turn of " + playerTwoName);
+                        GameFragment.player_turn.setText(TURN_OF + BLANK + playerTwoName);
                     } else {
                         arrayBoxes.set(position, xBitmap);
                         GameFragment.playerOneTurn = true;
-                        GameFragment.player_turn.setText("Turn of " + playerOneName);
+                        GameFragment.player_turn.setText(TURN_OF + BLANK + playerOneName);
                     }
 
                     //Win checker on click. If win will display a layout who is the winner
                     //Else it will be a draw
                     if (checkWin()) {
                         win();
-                    }else{
+                    } else {
                         int count = 0;
-                        for (int i = 0; i < arrayBoxes.size(); i++){
-                            if (arrayBoxes.get(i)!=null){
+                        for (int i = 0; i < arrayBoxes.size(); i++) {
+                            if (arrayBoxes.get(i) != null) {
                                 count++;
                             }
                         }
-                        if (count == 9){
+                        if (count == 9) {
                             GameFragment.win_relative_layout.setVisibility(View.VISIBLE);
-                              GameFragment.txt_win.setText("DRAW!!!!");
+                            GameFragment.txt_win.setText(DRAW);
                         }
                     }
                     notifyItemChanged(position);
@@ -134,17 +138,17 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.ViewHolder> {
             GameFragment.img_stroke.setImageBitmap(arrayWin.get(3));
             checkWinningPlayer(1);
             return true;
-        }else if ((arrayBoxes.get(2) == arrayBoxes.get(5)) && (arrayBoxes.get(5) == arrayBoxes.get(8)) && arrayBoxes.get(2) != null) {
+        } else if ((arrayBoxes.get(2) == arrayBoxes.get(5)) && (arrayBoxes.get(5) == arrayBoxes.get(8)) && arrayBoxes.get(2) != null) {
             GameFragment.img_stroke.setImageBitmap(arrayWin.get(4));
             checkWinningPlayer(2);
             return true;
 
             //Check if slant boxes has a winning player
-        }else if(arrayBoxes.get(0)==arrayBoxes.get(4)&&arrayBoxes.get(4)==arrayBoxes.get(8)&&arrayBoxes.get(0)!=null){
+        } else if (arrayBoxes.get(0) == arrayBoxes.get(4) && arrayBoxes.get(4) == arrayBoxes.get(8) && arrayBoxes.get(0) != null) {
             GameFragment.img_stroke.setImageBitmap(arrayWin.get(1));
             checkWinningPlayer(0);
             return true;
-        }else if(arrayBoxes.get(2)==arrayBoxes.get(4)&&arrayBoxes.get(4)==arrayBoxes.get(6)&&arrayBoxes.get(2)!=null){
+        } else if (arrayBoxes.get(2) == arrayBoxes.get(4) && arrayBoxes.get(4) == arrayBoxes.get(6) && arrayBoxes.get(2) != null) {
             GameFragment.img_stroke.setImageBitmap(arrayWin.get(0));
             checkWinningPlayer(2);
             return true;
@@ -155,9 +159,9 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.ViewHolder> {
     //Gets the array box as a parameter (any of the 3 combination box can be sent) and then checks
     //what bitmap is inserted in the array
     private void checkWinningPlayer(int i) {
-        if (arrayBoxes.get(i)==heartBitmap){
+        if (arrayBoxes.get(i) == heartBitmap) {
             winningPlayer = GameFragment.playerOneName;
-        }else{
+        } else {
             winningPlayer = GameFragment.playerTwoName;
         }
     }
@@ -166,17 +170,18 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.ViewHolder> {
     //Also contains the setting of the textview in the fragment for the respective score
     private void win() {
         GameFragment.win_relative_layout.setVisibility(View.VISIBLE);
-        if(winningPlayer.equals(playerOneName)){
+        if (winningPlayer.equals(playerOneName)) {
             MainActivity.playerOneScore++;
             GameFragment.playerOneTextView.setText(playerOneName + ": " + MainActivity.playerOneScore);
-            GameFragment.txt_win.setText(playerOneName + " wins!!!");
+            GameFragment.txt_win.setText(playerOneName + BLANK + WINS);
 
-        }else{
+        } else {
             MainActivity.playerTwoScore++;
             GameFragment.playerTwoTextView.setText(playerTwoName + ": " + MainActivity.playerTwoScore);
-            GameFragment.txt_win.setText(playerTwoName + " wins!!!");
+            GameFragment.txt_win.setText(playerTwoName + BLANK + WINS);
 
         }
+
 
     }
 

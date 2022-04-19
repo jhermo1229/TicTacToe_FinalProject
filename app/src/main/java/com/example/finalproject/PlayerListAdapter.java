@@ -11,7 +11,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-public class PlayerListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+/**
+ * PlayerListAdapter - Adapter for the recycler view
+ */
+public class PlayerListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private List<Player> playerList;
 
@@ -48,6 +51,7 @@ public class PlayerListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         return viewHolder;
     }
 
+    //Setting the data from database to the recyclerview
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         Player playerAdapter = playerList.get(position);
