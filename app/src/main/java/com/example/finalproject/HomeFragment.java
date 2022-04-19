@@ -54,7 +54,8 @@ public class HomeFragment extends Fragment {
         viewScoreBtn.setOnClickListener((gradeEntryView) -> {
 
             FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-              transaction.replace(R.id.homeFrame, new ViewScoreFragment());
+            transaction.addToBackStack(ViewScoreFragment.TAG);
+            transaction.replace(R.id.homeFrame, new ViewScoreFragment());
             transaction.commit();
             });
 

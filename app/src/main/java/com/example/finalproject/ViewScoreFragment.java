@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ import java.util.List;
 
 public class ViewScoreFragment extends Fragment {
 
+    public static String TAG = ViewScoreFragment.class.getName();
     public static final String ID = "id";
     public static final String PLAYER_ONE_NAME = "player_one";
     public static final String PLAYER_TWO_NAME = "player_two";
@@ -27,6 +29,7 @@ public class ViewScoreFragment extends Fragment {
     private List<Player> playerList = new ArrayList<>();
     private PlayerListAdapter mAdapter;
     DatabaseHelper dbh;
+    private Button backBtn;
 
 
     public ViewScoreFragment() {
@@ -75,6 +78,15 @@ public class ViewScoreFragment extends Fragment {
         cursor.close();
         dbh.close();
         bindAdapter();
+
+        backBtn = viewFragment.findViewById(R.id.backBtn);
+
+        backBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                getParentFragmentManager().popBackStack();
+            }
+        });
 
         return viewFragment;
     }
